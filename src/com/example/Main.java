@@ -57,8 +57,10 @@ public class Main {
             }
             teacherClasses.put(teacher, classes);
         }
+        System.out.println("****************************************** \n");
+        for (HashMap.Entry teacher: teacherClasses.entrySet()) {
+            System.out.println("Teacher: " + teacher.getKey() + "\n" + "Students: \n" + teacher.getValue().toString() + "\n" + "*******************************************" + "\n");
+        }
 
-
-        System.out.println(teacherClasses);
     }
 }

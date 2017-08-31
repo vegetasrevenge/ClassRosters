@@ -25,8 +25,8 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher \n" +
-                "Name: " + firstName + " " + lastName + " | " + "ID: " + id + " | " + "Grade: " + grade + "\n";
+        return "Teacher: \n" +
+                firstName + " " + lastName + " | " + "ID: " + id + " | " + "Grade: " + grade + "\n";
     }
 
     public String getFirstName() {
