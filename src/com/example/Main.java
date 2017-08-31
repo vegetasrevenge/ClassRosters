@@ -2,6 +2,9 @@ package com.example;
 
 import com.github.javafaker.Faker;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -57,10 +60,48 @@ public class Main {
             }
             teacherClasses.put(teacher, classes);
         }
-        System.out.println("****************************************** \n");
-        for (HashMap.Entry teacher: teacherClasses.entrySet()) {
-            System.out.println("Teacher: " + teacher.getKey() + "\n" + "Students: \n" + teacher.getValue().toString() + "\n" + "*******************************************" + "\n");
+//        System.out.println("****************************************** \n");
+//        for (HashMap.Entry teacher: teacherClasses.entrySet()) {
+//            System.out.println("Teacher: " + teacher.getKey() + "\n" + "Students: \n" + teacher.getValue().toString() + "\n" + "*******************************************" + "\n");
+//        }
+
+        String output = "";
+
+        output += ClassHTMLTemplate.header;
+
+        for (Teacher teacher: teacherClasses.keySet() ) {
+            String teacherRow = ClassHTMLTemplate.personRow;
+            teacherRow = teacherRow.replace("{{type}}", "Teacher");
+            teacherRow = teacherRow.replace("{{id}}", teacher.getId().toString());
+            teacherRow = teacherRow.replace("{{grade}}", teacher.getGrade().toString());
+            teacherRow = teacherRow.replace("{{firstName}}", teacher.getFirstName().toString());
+            teacherRow = teacherRow.replace("{{lastName}}", teacher.getLastName().toString());
+            output += teacherRow;
+            HashSet<Student> studentsInClass = teacherClasses.get(teacher);
+            for (Student student: studentsInClass) {
+                String studentRow = ClassHTMLTemplate.personRow;
+                studentRow = studentRow.replace("{{type}}", "Student");
+                studentRow = studentRow.replace("{{id}}", student.getId().toString());
+                studentRow = studentRow.replace("{{grade}}", student.getGrade().toString());
+                studentRow = studentRow.replace("{{firstName}}", student.getFirstName().toString());
+                studentRow = studentRow.replace("{{lastName}}", student.getLastName().toString());
+                output += studentRow;
+            }
         }
 
+        output += ClassHTMLTemplate.footer;
+
+        try {
+            File file = new File("output.html");
+            FileWriter fileWriter = null;
+            fileWriter = new FileWriter(file);
+            fileWriter.write(output);
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(output);
     }
 }
